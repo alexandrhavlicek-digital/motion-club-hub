@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AnimatorLayout } from '@/components/motion/AnimatorLayout';
 import { 
   Users, 
@@ -10,6 +11,8 @@ import {
 } from 'lucide-react';
 
 export const AnimatorDashboard: React.FC = () => {
+  const navigate = useNavigate();
+  
   // Mock statistics
   const stats = [
     {
@@ -98,21 +101,30 @@ export const AnimatorDashboard: React.FC = () => {
             Rychlé akce
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="flex items-center p-4 border rounded-lg hover:bg-muted cursor-pointer">
+            <div 
+              className="flex items-center p-4 border rounded-lg hover:bg-muted cursor-pointer"
+              onClick={() => navigate('/animator/registrations')}
+            >
               <BarChart3 className="w-6 h-6 text-primary mr-3" />
               <div>
                 <p className="font-medium">Přehled registrací</p>
                 <p className="text-sm text-muted-foreground">Zobrazit všechny registrace</p>
               </div>
             </div>
-            <div className="flex items-center p-4 border rounded-lg hover:bg-muted cursor-pointer">
+            <div 
+              className="flex items-center p-4 border rounded-lg hover:bg-muted cursor-pointer"
+              onClick={() => navigate('/animator/add')}
+            >
               <UserPlus className="w-6 h-6 text-green-600 mr-3" />
               <div>
                 <p className="font-medium">Přidat registraci</p>
                 <p className="text-sm text-muted-foreground">Manuální registrace účastníka</p>
               </div>
             </div>
-            <div className="flex items-center p-4 border rounded-lg hover:bg-muted cursor-pointer">
+            <div 
+              className="flex items-center p-4 border rounded-lg hover:bg-muted cursor-pointer"
+              onClick={() => navigate('/animator/remove')}
+            >
               <UserMinus className="w-6 h-6 text-red-600 mr-3" />
               <div>
                 <p className="font-medium">Zrušit registraci</p>
