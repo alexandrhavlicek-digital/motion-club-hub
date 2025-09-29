@@ -26,8 +26,8 @@ const mockActivities: Activity[] = [
     events: [
       {
         event_id: 1987,
-        start_at: '2025-01-02T10:00:00', // Future activity
-        end_at: '2025-01-02T12:00:00',
+        start_at: '2025-10-02T10:00:00', // Future activity
+        end_at: '2025-10-02T12:00:00',
         capacity: { max: 30, confirmed: 24, available: 6 },
         age_profile: { min: 15, max: 99 }
       },
@@ -50,15 +50,15 @@ const mockActivities: Activity[] = [
     events: [
       {
         event_id: 1989,
-        start_at: '2025-01-03T09:00:00', // Future activity
-        end_at: '2025-01-03T12:00:00',
+        start_at: '2025-10-03T09:00:00', // Future activity
+        end_at: '2025-10-03T12:00:00',
         capacity: { max: 20, confirmed: 8, available: 12 },
         age_profile: { min: 4, max: 12 }
       },
       {
         event_id: 1990,
-        start_at: '2025-01-04T15:00:00', // Future activity
-        end_at: '2025-01-04T18:00:00',
+        start_at: '2025-10-04T15:00:00', // Future activity
+        end_at: '2025-10-04T18:00:00',
         capacity: { max: 20, confirmed: 15, available: 5 },
         age_profile: { min: 4, max: 12 }
       }
@@ -74,15 +74,15 @@ const mockActivities: Activity[] = [
     events: [
       {
         event_id: 1991,
-        start_at: '2025-01-05T19:30:00', // Future activity
-        end_at: '2025-01-05T20:30:00',
+        start_at: '2025-10-05T19:30:00', // Future activity
+        end_at: '2025-10-05T20:30:00',
         capacity: { max: 15, confirmed: 10, available: 5 },
         age_profile: { min: 16, max: 99 }
       },
       {
         event_id: 1992,
-        start_at: '2025-01-06T19:30:00', // Future activity
-        end_at: '2025-01-06T20:30:00',
+        start_at: '2025-10-06T19:30:00', // Future activity
+        end_at: '2025-10-06T20:30:00',
         capacity: { max: 15, confirmed: 5, available: 10 },
         age_profile: { min: 16, max: 99 }
       }
