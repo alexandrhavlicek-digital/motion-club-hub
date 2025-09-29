@@ -1,5 +1,6 @@
 import React from 'react';
 import derTourLogo from '@/assets/der-tour-logo.png';
+import motionLogo from '@/assets/motion-logo-white.png';
 
 interface HeaderProps {
   title?: string;
@@ -31,6 +32,11 @@ export const Header: React.FC<HeaderProps> = ({
             <img src={derTourLogo} alt="DERTOUR" className="h-6" />
           </div>
           <span className="text-lg font-semibold text-white">{title}</span>
+        </div>
+        
+        {/* Motion Logo - right side, hidden on small screens */}
+        <div className="hidden sm:block">
+          <img src={motionLogo} alt="Motion" className="h-8" />
         </div>
       </div>
     </header>
