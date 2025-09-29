@@ -60,9 +60,9 @@ export const useMotionAuth = () => {
       // Mock API call - in real app, this would validate BNR and email
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      // Mock session data
+      // Mock session data  
       const session: UserSession = {
-        bnr,
+        bnr: '191754321', // Ensure this matches the BNR in mock bookings
         email,
         hotel: {
           hotel_id: 'HER90079',
