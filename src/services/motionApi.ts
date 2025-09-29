@@ -87,6 +87,64 @@ const mockActivities: Activity[] = [
         age_profile: { min: 16, max: 99 }
       }
     ]
+  },
+  {
+    activity_id: 1004,
+    title: 'Aqua Aerobik',
+    short_description: 'Cvičení ve vodě pro všechny věky',
+    long_description: 'Energické cvičení ve vodě s motivující hudbou a profesionálním trenérem.',
+    category: 'Sport',
+    location: { label: 'Bazén' },
+    events: [
+      {
+        event_id: 1994,
+        start_at: '2025-01-01T16:00:00',
+        end_at: '2025-01-01T17:00:00',
+        capacity: { max: 35, confirmed: 22, available: 13 },
+        age_profile: { min: 18, max: 99 }
+      },
+      {
+        event_id: 1995,
+        start_at: '2024-12-29T16:00:00',
+        end_at: '2024-12-29T17:00:00',
+        capacity: { max: 35, confirmed: 28, available: 7 },
+        age_profile: { min: 18, max: 99 }
+      }
+    ]
+  },
+  {
+    activity_id: 1005,
+    title: 'Paintball Tournament',
+    short_description: 'Turnaj v paintballu pro týmy',
+    long_description: 'Adrenalinový paintballový turnaj. Ochranné vybavení a instrukce v ceně.',
+    category: 'Sport',
+    location: { label: 'Paintball arena' },
+    events: [
+      {
+        event_id: 1996,
+        start_at: '2024-12-27T14:00:00',
+        end_at: '2024-12-27T16:30:00',
+        capacity: { max: 24, confirmed: 20, available: 4 },
+        age_profile: { min: 16, max: 55 }
+      }
+    ]
+  },
+  {
+    activity_id: 1006,
+    title: 'Dětský klub - odpoledne',
+    short_description: 'Kreativní aktivity pro děti',
+    long_description: 'Malování, výtvarné dílničky a hry pro děti s animátory.',
+    category: 'Děti',
+    location: { label: 'Dětský klub' },
+    events: [
+      {
+        event_id: 1993,
+        start_at: '2024-12-30T15:00:00',
+        end_at: '2024-12-30T17:00:00',
+        capacity: { max: 20, confirmed: 15, available: 5 },
+        age_profile: { min: 4, max: 12 }
+      }
+    ]
   }
 ];
 
@@ -173,6 +231,41 @@ export const motionApi = {
         booking_id: 555012,
         bnr: '191754321',
         event_id: 1988,
+        participant: { id: '3', type: 'Adult', display_name: 'Petr S.', age: 35 },
+        status: 'confirmed' as const
+      },
+      {
+        booking_id: 555013,
+        bnr: '191754321',
+        event_id: 1994,
+        participant: { id: '1', type: 'Adult', display_name: 'Adam N.', age: 45 },
+        status: 'confirmed' as const
+      },
+      {
+        booking_id: 555014,
+        bnr: '191754321',
+        event_id: 1995,
+        participant: { id: '3', type: 'Adult', display_name: 'Petr S.', age: 35 },
+        status: 'confirmed' as const
+      },
+      {
+        booking_id: 555015,
+        bnr: '191754321',
+        event_id: 1993,
+        participant: { id: '5', type: 'Child', display_name: 'Eva N.', age: 9 },
+        status: 'confirmed' as const
+      },
+      {
+        booking_id: 555016,
+        bnr: '191754321',
+        event_id: 1996,
+        participant: { id: '1', type: 'Adult', display_name: 'Adam N.', age: 45 },
+        status: 'confirmed' as const
+      },
+      {
+        booking_id: 555017,
+        bnr: '191754321',
+        event_id: 1996,
         participant: { id: '3', type: 'Adult', display_name: 'Petr S.', age: 35 },
         status: 'confirmed' as const
       }
