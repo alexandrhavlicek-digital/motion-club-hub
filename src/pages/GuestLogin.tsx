@@ -143,7 +143,7 @@ export const GuestLogin: React.FC = () => {
               </p>
               <Button
                 variant="outline"
-                onClick={() => navigate('/animator-login')}
+                onClick={() => navigate('/animator/login')}
                 className="w-full"
               >
                 Přihlášení animátorů
