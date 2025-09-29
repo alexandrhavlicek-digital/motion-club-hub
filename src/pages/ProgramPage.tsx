@@ -235,9 +235,9 @@ export const ProgramPage: React.FC = () => {
           if (tab === 'activities') {
             window.location.href = '/my-activities';
           } else if (tab === 'profile') {
-            window.location.href = '/profile';
+            window.location.href = '/';
           }
-        }} 
+        }}
       />
 
       {/* Booking Modal */}

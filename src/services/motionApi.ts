@@ -153,7 +153,33 @@ export const motionApi = {
   async getUserBookings(bnr: string): Promise<UserBookingsResponse> {
     await new Promise(resolve => setTimeout(resolve, 400));
 
-    const userBookings = mockBookings.filter(b => b.bnr === bnr && b.status === 'confirmed');
+    // Add more mock bookings for demonstration
+    const extraMockBookings = [
+      {
+        booking_id: 555010,
+        bnr: '191754321',
+        event_id: 1989,
+        participant: { id: '5', type: 'Child', display_name: 'Eva N.', age: 9 },
+        status: 'confirmed' as const
+      },
+      {
+        booking_id: 555011,
+        bnr: '191754321',
+        event_id: 1991,
+        participant: { id: '1', type: 'Adult', display_name: 'Adam N.', age: 45 },
+        status: 'confirmed' as const
+      },
+      {
+        booking_id: 555012,
+        bnr: '191754321',
+        event_id: 1988,
+        participant: { id: '3', type: 'Adult', display_name: 'Petr S.', age: 35 },
+        status: 'confirmed' as const
+      }
+    ];
+
+    const allBookings = [...mockBookings, ...extraMockBookings];
+    const userBookings = allBookings.filter(b => b.bnr === bnr && b.status === 'confirmed');
     
     // Group bookings by event
     const activitiesMap = new Map();

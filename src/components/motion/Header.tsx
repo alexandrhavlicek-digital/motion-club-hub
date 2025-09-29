@@ -28,7 +28,7 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           )}
           <img src={derTourLogo} alt="DERTOUR" className="h-8" />
-          <span className="text-lg font-semibold text-primary-foreground">{title}</span>
+          <span className="text-lg font-semibold text-white">{title}</span>
         </div>
       </div>
     </header>

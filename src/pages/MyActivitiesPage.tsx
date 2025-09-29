@@ -306,9 +306,9 @@ export const MyActivitiesPage: React.FC = () => {
           if (tab === 'program') {
             window.location.href = '/program';
           } else if (tab === 'profile') {
-            window.location.href = '/profile';
+            window.location.href = '/';
           }
-        }} 
+        }}
       />
 
       {/* Cancellation Confirmation Dialog */}
