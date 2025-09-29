@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound";
 import { GuestLogin } from "./pages/GuestLogin";
 import { ProgramPage } from "./pages/ProgramPage";
 import { MyActivitiesPage } from "./pages/MyActivitiesPage";
+import { ProfilePage } from "./pages/ProfilePage";
 import { useMotionAuth } from "./hooks/useMotionAuth";
 
 const queryClient = new QueryClient();
@@ -49,6 +50,11 @@ const App = () => (
           <Route path="/my-activities" element={
             <ProtectedRoute>
               <MyActivitiesPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/profile" element={
+            <ProtectedRoute>
+              <ProfilePage />
             </ProtectedRoute>
           } />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
