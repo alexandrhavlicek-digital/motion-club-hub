@@ -28,15 +28,15 @@ export const Header: React.FC<HeaderProps> = ({
               </svg>
             </button>
           )}
-          <div className="bg-white px-2 py-1 rounded-md">
-            <img src={derTourLogo} alt="DERTOUR" className="h-6" />
-          </div>
+          <img src={motionLogo} alt="Motion" className="h-8" />
           <span className="text-lg font-semibold text-white">{title}</span>
         </div>
         
-        {/* Motion Logo - right side, hidden on small screens */}
+        {/* DERTOUR Logo - right side, hidden on small screens */}
         <div className="hidden sm:block">
-          <img src={motionLogo} alt="Motion" className="h-8" />
+          <div className="bg-white px-2 py-1 rounded-md">
+            <img src={derTourLogo} alt="DERTOUR" className="h-6" />
+          </div>
         </div>
       </div>
     </header>
