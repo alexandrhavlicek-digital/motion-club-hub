@@ -43,6 +43,8 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
 const AnimatorRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated, role, isLoading } = useMotionAuth();
   
+  console.log('AnimatorRoute - isAuthenticated:', isAuthenticated, 'role:', role, 'isLoading:', isLoading);
+  
   if (isLoading) {
     return <div className="min-h-screen bg-background flex items-center justify-center">
       <div className="text-center">
@@ -53,6 +55,7 @@ const AnimatorRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   }
   
   if (!isAuthenticated || role !== 'animator') {
+    console.log('AnimatorRoute - redirecting to login, auth:', isAuthenticated, 'role:', role);
     return <Navigate to="/animator/login" replace />;
   }
   
