@@ -213,6 +213,7 @@ export const motionApi = {
 
     // Add more mock bookings for demonstration
     const extraMockBookings = [
+      // Future activities
       {
         booking_id: 555010,
         bnr: '191754321',
@@ -230,17 +231,25 @@ export const motionApi = {
       {
         booking_id: 555012,
         bnr: '191754321',
-        event_id: 1988,
+        event_id: 1987,
         participant: { id: '3', type: 'Adult', display_name: 'Petr S.', age: 35 },
         status: 'confirmed' as const
       },
       {
         booking_id: 555013,
         bnr: '191754321',
-        event_id: 1994,
+        event_id: 1992,
         participant: { id: '1', type: 'Adult', display_name: 'Adam N.', age: 45 },
         status: 'confirmed' as const
       },
+      {
+        booking_id: 555018,
+        bnr: '191754321',
+        event_id: 1987,
+        participant: { id: '5', type: 'Child', display_name: 'Eva N.', age: 9 },
+        status: 'confirmed' as const
+      },
+      // Past activities
       {
         booking_id: 555014,
         bnr: '191754321',
