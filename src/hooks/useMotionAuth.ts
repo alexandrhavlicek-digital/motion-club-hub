@@ -80,6 +80,8 @@ export const useMotionAuth = () => {
         ],
       };
 
+      // Ensure exclusivity: clear animator session when logging in as guest
+      localStorage.removeItem('motion_animator_session');
       localStorage.setItem('motion_guest_session', JSON.stringify(session));
       setAuthState({
         isAuthenticated: true,
