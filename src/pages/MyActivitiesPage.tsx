@@ -177,7 +177,17 @@ export const MyActivitiesPage: React.FC = () => {
 
                     return (
                       <div key={activity.event_id} className="activity-card p-4">
-                        <div className="flex justify-between items-start mb-4">
+                        <div className="flex gap-4 mb-4">
+                          {/* Activity Image */}
+                          <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-muted">
+                            <img 
+                              src="/api/placeholder/80/80" 
+                              alt={activity.title}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          
+                          {/* Activity Info */}
                           <div className="flex-1">
                             <h3 className="text-lg font-semibold text-foreground mb-2">
                               {activity.title}
@@ -247,7 +257,17 @@ export const MyActivitiesPage: React.FC = () => {
 
                     return (
                       <div key={activity.event_id} className="activity-card p-4 opacity-75">
-                        <div className="flex justify-between items-start mb-4">
+                        <div className="flex gap-4 mb-4">
+                          {/* Activity Image */}
+                          <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-muted">
+                            <img 
+                              src="/api/placeholder/80/80" 
+                              alt={activity.title}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          
+                          {/* Activity Info */}
                           <div className="flex-1">
                             <h3 className="text-lg font-semibold text-foreground mb-2">
                               {activity.title}
@@ -267,9 +287,13 @@ export const MyActivitiesPage: React.FC = () => {
                               </div>
                             </div>
                           </div>
-                          <span className="bg-muted text-muted-foreground px-2 py-1 text-xs rounded-md">
-                            Proběhlo
-                          </span>
+                          
+                          {/* Past Activity Badge */}
+                          <div className="flex-shrink-0">
+                            <span className="bg-muted text-muted-foreground px-2 py-1 text-xs rounded-md">
+                              Proběhlo
+                            </span>
+                          </div>
                         </div>
 
                         {/* Participants */}
