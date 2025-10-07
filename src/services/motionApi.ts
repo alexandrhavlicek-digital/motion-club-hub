@@ -145,6 +145,23 @@ const mockActivities: Activity[] = [
         age_profile: { min: 4, max: 12 }
       }
     ]
+  },
+  {
+    activity_id: 1007,
+    title: 'Beach Volleyball',
+    short_description: 'Přátelský turnaj v plážovém volejbalu',
+    long_description: 'Zábavný turnaj v plážovém volejbalu pro všechny úrovně. Skvělá atmosféra a ceny pro vítěze.',
+    category: 'Sport',
+    location: { label: 'Plážové hřiště' },
+    events: [
+      {
+        event_id: 1997,
+        start_at: '2025-12-15T10:00:00',
+        end_at: '2025-12-15T12:00:00',
+        capacity: { max: 16, confirmed: 8, available: 8 },
+        age_profile: { min: 14, max: 99 }
+      }
+    ]
   }
 ];
 
@@ -276,6 +293,14 @@ export const motionApi = {
         bnr: '191754321',
         event_id: 1996,
         participant: { id: '3', type: 'Adult', display_name: 'Petr S.', age: 35 },
+        status: 'confirmed' as const
+      },
+      // December 2025 activity
+      {
+        booking_id: 555019,
+        bnr: '191754321',
+        event_id: 1997,
+        participant: { id: '1', type: 'Adult', display_name: 'Adam N.', age: 45 },
         status: 'confirmed' as const
       }
     ];
