@@ -7,9 +7,10 @@ import { useMotionAuth } from '@/hooks/useMotionAuth';
 import { motionApi } from '@/services/motionApi';
 import { Activity, ActivityEvent, Participant } from '@/types/motion';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Calendar, Search } from 'lucide-react';
+import { Loader2, Calendar, Search, AlertCircle } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 export const ProgramPage: React.FC = () => {
   const { userSession } = useMotionAuth();
@@ -154,6 +155,18 @@ export const ProgramPage: React.FC = () => {
             {userSession?.hotel.name} • Zobrazují se pouze aktivity ve vašem období
           </p>
         </div>
+
+        {/* Disclaimer */}
+        <Alert className="mb-6 border-primary/30 bg-primary/5">
+          <AlertCircle className="h-5 w-5 text-primary" />
+          <AlertTitle className="text-primary font-semibold">Upozornění:</AlertTitle>
+          <AlertDescription className="text-sm text-foreground/90 mt-2 space-y-1">
+            <p>Aktivity programu Motion klubu jsou organizovány místním provozovatelem, který nese plnou odpovědnost za jejich průběh, bezpečnost a případné změny.</p>
+            <p>DER Touristik CZ a.s. vystupuje pouze jako zprostředkovatel těchto aktivit.</p>
+            <p>Může dojít ke změně nebo zrušení aktivity z důvodu počasí, technických okolností či rozhodnutí provozovatele.</p>
+            <p className="font-medium">Potvrzením účasti souhlasíte s těmito podmínkami.</p>
+          </AlertDescription>
+        </Alert>
 
         {/* Search and filters */}
         <div className="space-y-4 mb-6">

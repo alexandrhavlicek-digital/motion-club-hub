@@ -42,6 +42,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   isLoading = false
 }) => {
   const [selectedParticipants, setSelectedParticipants] = useState<string[]>([]);
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   const formatDateTime = (dateTime: string) => {
     const date = new Date(dateTime);
@@ -70,10 +71,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     const selected = participants.filter(p => selectedParticipants.includes(p.id));
     onConfirm(selected);
     setSelectedParticipants([]);
+    setTermsAccepted(false);
   };
 
   const handleClose = () => {
     setSelectedParticipants([]);
+    setTermsAccepted(false);
     onClose();
   };
 
@@ -138,6 +141,23 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             </div>
           </div>
 
+          {/* Terms confirmation */}
+          <div className="border-t pt-4">
+            <div className="flex items-start space-x-3">
+              <Checkbox
+                id="terms"
+                checked={termsAccepted}
+                onCheckedChange={(checked) => setTermsAccepted(checked as boolean)}
+              />
+              <label
+                htmlFor="terms"
+                className="text-sm leading-relaxed cursor-pointer"
+              >
+                Potvrzuji, že jsem se seznámil(a) s tím, že aktivitu pořádá místní provozovatel a DER Touristik CZ a.s. je pouze zprostředkovatelem.
+              </label>
+            </div>
+          </div>
+
           {/* Action Buttons */}
           <div className="flex space-x-3 pt-4">
             <Button
@@ -150,7 +170,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             </Button>
             <Button
               onClick={handleConfirm}
-              disabled={selectedParticipants.length === 0 || isLoading}
+              disabled={selectedParticipants.length === 0 || !termsAccepted || isLoading}
               className="flex-1"
             >
               {isLoading ? 'Rezervuji...' : `Rezervovat (${selectedParticipants.length})`}
