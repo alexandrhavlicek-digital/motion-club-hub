@@ -52,6 +52,7 @@ export const AnimatorRegistrations: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [expandedHotels, setExpandedHotels] = useState<string[]>([]);
   const [expandedActivities, setExpandedActivities] = useState<string[]>([]);
+  const [expandedDates, setExpandedDates] = useState<string[]>([]);
 
   // Mock registration data with hotel
   const registrations: Registration[] = [
@@ -200,15 +201,17 @@ export const AnimatorRegistrations: React.FC = () => {
     return matchesActivity && matchesSearch && matchesDate;
   });
 
-  // Group registrations by hotel, then by activity
+  // Group registrations by hotel, then by activity, then by date
   const groupedRegistrations = filteredRegistrations.reduce((acc, reg) => {
     if (!acc[reg.hotel]) {
       acc[reg.hotel] = {};
     }
-    const activityKey = `${reg.activity} - ${reg.eventDate} ${reg.startTime}`;
-    if (!acc[reg.hotel][activityKey]) {
-      acc[reg.hotel][activityKey] = {
-        activity: reg.activity,
+    if (!acc[reg.hotel][reg.activity]) {
+      acc[reg.hotel][reg.activity] = {};
+    }
+    const dateKey = `${reg.eventDate} ${reg.startTime}`;
+    if (!acc[reg.hotel][reg.activity][dateKey]) {
+      acc[reg.hotel][reg.activity][dateKey] = {
         eventDate: reg.eventDate,
         startTime: reg.startTime,
         endTime: reg.endTime,
@@ -216,9 +219,9 @@ export const AnimatorRegistrations: React.FC = () => {
         participants: []
       };
     }
-    acc[reg.hotel][activityKey].participants.push(reg);
+    acc[reg.hotel][reg.activity][dateKey].participants.push(reg);
     return acc;
-  }, {} as Record<string, Record<string, { activity: string; eventDate: string; startTime: string; endTime: string; location: string; participants: Registration[] }>>);
+  }, {} as Record<string, Record<string, Record<string, { eventDate: string; startTime: string; endTime: string; location: string; participants: Registration[] }>>>);
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('cs-CZ', {
@@ -259,12 +262,27 @@ export const AnimatorRegistrations: React.FC = () => {
     );
   };
 
+  const toggleDate = (dateKey: string) => {
+    setExpandedDates(prev => 
+      prev.includes(dateKey) 
+        ? prev.filter(d => d !== dateKey)
+        : [...prev, dateKey]
+    );
+  };
+
   // Expand all by default
   React.useEffect(() => {
     setExpandedHotels(Object.keys(groupedRegistrations));
     setExpandedActivities(
       Object.entries(groupedRegistrations).flatMap(([hotel, activities]) => 
         Object.keys(activities).map(actKey => `${hotel}-${actKey}`)
+      )
+    );
+    setExpandedDates(
+      Object.entries(groupedRegistrations).flatMap(([hotel, activities]) => 
+        Object.entries(activities).flatMap(([actKey, dates]) =>
+          Object.keys(dates).map(dateKey => `${hotel}-${actKey}-${dateKey}`)
+        )
       )
     );
   }, [filteredRegistrations.length]);
@@ -394,7 +412,9 @@ export const AnimatorRegistrations: React.FC = () => {
                     <Building className="w-5 h-5 mr-3 text-primary" />
                     <h4 className="text-lg font-semibold text-foreground">{hotel}</h4>
                     <span className="ml-3 text-sm text-muted-foreground">
-                      ({Object.values(activities).reduce((sum, act) => sum + act.participants.length, 0)} účastníků)
+                      ({Object.values(activities).reduce((sum, act) => 
+                        sum + Object.values(act).reduce((s, d) => s + d.participants.length, 0), 0
+                      )} účastníků)
                     </span>
                   </div>
                   {expandedHotels.includes(hotel) ? (
@@ -406,35 +426,24 @@ export const AnimatorRegistrations: React.FC = () => {
                 
                 <CollapsibleContent>
                   <div className="p-4 space-y-3">
-                    {Object.entries(activities).map(([activityKey, activityData]) => {
-                      const fullKey = `${hotel}-${activityKey}`;
+                    {Object.entries(activities).map(([activityName, dates]) => {
+                      const activityKey = `${hotel}-${activityName}`;
+                      const totalParticipants = Object.values(dates).reduce((sum, d) => sum + d.participants.length, 0);
                       return (
                         <Collapsible
-                          key={activityKey}
-                          open={expandedActivities.includes(fullKey)}
-                          onOpenChange={() => toggleActivity(fullKey)}
+                          key={activityName}
+                          open={expandedActivities.includes(activityKey)}
+                          onOpenChange={() => toggleActivity(activityKey)}
                         >
                           <div className="border border-border rounded-lg overflow-hidden">
                             <CollapsibleTrigger className="w-full p-3 flex items-center justify-between bg-muted/30 hover:bg-muted/50 transition-colors">
                               <div className="flex items-center flex-wrap gap-2">
-                                <span className="font-medium text-foreground">{activityData.activity}</span>
-                                <span className="text-sm text-muted-foreground">•</span>
-                                <span className="text-sm text-muted-foreground">{formatDate(activityData.eventDate)}</span>
-                                <span className="text-sm text-muted-foreground">•</span>
-                                <div className="flex items-center text-sm text-muted-foreground">
-                                  <Clock className="w-3 h-3 mr-1" />
-                                  {activityData.startTime} - {activityData.endTime}
-                                </div>
-                                <span className="text-sm text-muted-foreground">•</span>
-                                <div className="flex items-center text-sm text-muted-foreground">
-                                  <MapPin className="w-3 h-3 mr-1" />
-                                  {activityData.location}
-                                </div>
+                                <span className="font-medium text-foreground">{activityName}</span>
                                 <span className="ml-2 bg-primary/10 text-primary px-2 py-0.5 rounded-full text-xs font-medium">
-                                  {activityData.participants.length} účastníků
+                                  {totalParticipants} účastníků
                                 </span>
                               </div>
-                              {expandedActivities.includes(fullKey) ? (
+                              {expandedActivities.includes(activityKey) ? (
                                 <ChevronDown className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                               ) : (
                                 <ChevronRight className="w-4 h-4 text-muted-foreground flex-shrink-0" />
@@ -443,40 +452,80 @@ export const AnimatorRegistrations: React.FC = () => {
                             
                             <CollapsibleContent>
                               <div className="divide-y divide-border">
-                                {activityData.participants.map((participant) => (
-                                  <div 
-                                    key={participant.id}
-                                    className="p-3 flex items-center justify-between bg-background hover:bg-muted/20 transition-colors"
-                                  >
-                                    <div className="flex items-center gap-4">
-                                      <div className="flex items-center">
-                                        <User className="w-4 h-4 mr-2 text-muted-foreground" />
-                                        <div>
-                                          <p className="font-medium text-foreground">{participant.participant.name}</p>
-                                          <p className="text-xs text-muted-foreground">
-                                            {participant.participant.age} let • {participant.participant.type === 'Adult' ? 'Dospělý' : 'Dítě'}
-                                          </p>
-                                        </div>
-                                      </div>
-                                      <div className="hidden sm:block text-sm">
-                                        <p className="text-muted-foreground">BNR: {participant.bnr}</p>
-                                        <p className="text-muted-foreground text-xs">ID: {participant.bookingId}</p>
-                                      </div>
-                                      <span className="hidden md:inline-flex bg-green-100 text-green-800 px-2 py-0.5 rounded-md text-xs font-medium">
-                                        {participant.status === 'confirmed' ? 'Potvrzeno' : participant.status}
-                                      </span>
-                                    </div>
-                                    <Button
-                                      variant="ghost"
-                                      size="sm"
-                                      onClick={() => handleRemoveRegistration(participant)}
-                                      className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                                {Object.entries(dates).map(([dateKey, dateData]) => {
+                                  const fullDateKey = `${hotel}-${activityName}-${dateKey}`;
+                                  return (
+                                    <Collapsible
+                                      key={dateKey}
+                                      open={expandedDates.includes(fullDateKey)}
+                                      onOpenChange={() => toggleDate(fullDateKey)}
                                     >
-                                      <Trash2 className="w-4 h-4 mr-1" />
-                                      <span className="hidden sm:inline">Odebrat</span>
-                                    </Button>
-                                  </div>
-                                ))}
+                                      <CollapsibleTrigger className="w-full p-3 flex items-center justify-between bg-muted/10 hover:bg-muted/20 transition-colors border-b border-border">
+                                        <div className="flex items-center flex-wrap gap-2">
+                                          <Calendar className="w-4 h-4 text-muted-foreground" />
+                                          <span className="text-sm font-medium text-foreground">{formatDate(dateData.eventDate)}</span>
+                                          <span className="text-sm text-muted-foreground">•</span>
+                                          <div className="flex items-center text-sm text-muted-foreground">
+                                            <Clock className="w-3 h-3 mr-1" />
+                                            {dateData.startTime} - {dateData.endTime}
+                                          </div>
+                                          <span className="text-sm text-muted-foreground">•</span>
+                                          <div className="flex items-center text-sm text-muted-foreground">
+                                            <MapPin className="w-3 h-3 mr-1" />
+                                            {dateData.location}
+                                          </div>
+                                          <span className="ml-2 bg-secondary/50 text-secondary-foreground px-2 py-0.5 rounded-full text-xs font-medium">
+                                            {dateData.participants.length} účastníků
+                                          </span>
+                                        </div>
+                                        {expandedDates.includes(fullDateKey) ? (
+                                          <ChevronDown className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                                        ) : (
+                                          <ChevronRight className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                                        )}
+                                      </CollapsibleTrigger>
+                                      
+                                      <CollapsibleContent>
+                                        <div className="divide-y divide-border">
+                                          {dateData.participants.map((participant) => (
+                                            <div 
+                                              key={participant.id}
+                                              className="p-3 flex items-center justify-between bg-background hover:bg-muted/20 transition-colors"
+                                            >
+                                              <div className="flex items-center gap-4">
+                                                <div className="flex items-center">
+                                                  <User className="w-4 h-4 mr-2 text-muted-foreground" />
+                                                  <div>
+                                                    <p className="font-medium text-foreground">{participant.participant.name}</p>
+                                                    <p className="text-xs text-muted-foreground">
+                                                      {participant.participant.age} let • {participant.participant.type === 'Adult' ? 'Dospělý' : 'Dítě'}
+                                                    </p>
+                                                  </div>
+                                                </div>
+                                                <div className="hidden sm:block text-sm">
+                                                  <p className="text-muted-foreground">BNR: {participant.bnr}</p>
+                                                  <p className="text-muted-foreground text-xs">ID: {participant.bookingId}</p>
+                                                </div>
+                                                <span className="hidden md:inline-flex bg-green-100 text-green-800 px-2 py-0.5 rounded-md text-xs font-medium">
+                                                  {participant.status === 'confirmed' ? 'Potvrzeno' : participant.status}
+                                                </span>
+                                              </div>
+                                              <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() => handleRemoveRegistration(participant)}
+                                                className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                                              >
+                                                <Trash2 className="w-4 h-4 mr-1" />
+                                                <span className="hidden sm:inline">Odebrat</span>
+                                              </Button>
+                                            </div>
+                                          ))}
+                                        </div>
+                                      </CollapsibleContent>
+                                    </Collapsible>
+                                  );
+                                })}
                               </div>
                             </CollapsibleContent>
                           </div>
